@@ -92,17 +92,17 @@ void move_PIXEL(unsigned char (*nm)[256], unsigned char (*cnt)[256], imgdata ida
   int j;
   int x, y;
   int x2, y2;
+
   for(i = 0, j = 1;i <= 254&&j <= 255; i++,j++){
-    for (y = 0; y < idata.height; y++) {
-      for (x = 0; x < idata.width; x++) {
+    for (y = idata.height; y > 0; y--) {
+      for (x = idata.width; x > 0; x--) {
         if (idata.source[RED][x][y] == i && cnt[i][j] < nm[i][j]) {
 
-          for (y2 = idata.height; y >= 0; y--) {
-            for (x2 = idata.width; x >= 0; x--) {
-              if(idata.source[RED][x2][y2] == j) break;
+          for (y2 = idata.height; y > 0; y--) {
+            for (x2 = idata.width; x > 0 && idata.source[RED][x2][y2] != j; x--) {
             }
-            break;
           }
+
            idata.results[RED][x2][y2] += 1;
            idata.source[RED][x2][y2] += 1;
            idata.results[RED][x][y] -= 1;
