@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
   int x, y;
   unsigned char depth = 8;
-  unsigned char h[256];
+  unsigned char h[256] = {0};
   unsigned char nm[256][256] = {0};
   unsigned char cnt[256][256] = {0};
   unsigned char input = 0;
@@ -34,10 +34,6 @@ int main(int argc, char *argv[])
   p_nm = nm;
   p_cnt = cnt;
 
-
-  for(i=0;i<256;i++){
-    h[i] = 0;
-  }
 
   for(i=0;i<256;i++){
     for(s=0;s<256;s++){
@@ -72,16 +68,20 @@ int main(int argc, char *argv[])
 void input_NM(unsigned char (*nm)[256],unsigned char *h,unsigned char M){
   int i,s;
   for(i=0;i<256;i++){
-    s = i;
+    s = i + 1;
     while(h[i] != M){
       if(h[i] > M){
         nm[i][i+1] += 1;
         h[i]--;
+        h[i+1]++;
       }
       if(h[i] < M){
-        while(h[i+1] == 0) s++;
-        nm[s+1][i] += 1;
+        while(h[s] == 0){
+          s++;
+        }
+        nm[s][i] += 1;
         h[i]++;
+        h[s]--;
       }
     }
   }
